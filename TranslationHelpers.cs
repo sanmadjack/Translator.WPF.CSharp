@@ -55,6 +55,7 @@ namespace Translator.WPF {
                   obj is ComboBox ||
                   obj is Image ||
                   obj is TreeView ||
+                  obj is System.Windows.Shapes.Shape ||
                 obj is PasswordBox) {
             } else if (obj is ItemsControl) {
                 ItemsControl items = obj as ItemsControl;

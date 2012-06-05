@@ -63,7 +63,11 @@ namespace Translator.WPF {
                     translateRecursively(item);
                 }
                 if (obj is HeaderedItemsControl) {
-                    translateHeader(obj as HeaderedItemsControl);
+                    if (obj is MenuItem) {
+                        translateMenuItem(obj as MenuItem);
+                    } else {
+                        translateHeader(obj as HeaderedItemsControl);
+                    }
                 }
 
                 if (obj is ListView) {
@@ -108,6 +112,8 @@ namespace Translator.WPF {
                     translateRecursively(head.Content as UIElement);
                 } else if (obj is RibbonButton) {
                     translateLabel(obj as RibbonButton);
+                } else if (obj is Button) {
+                    translateButton(obj as Button);
                 } else {
                     translateContent(obj as ContentControl);
                 }
@@ -150,6 +156,7 @@ namespace Translator.WPF {
             string string_title = button.Label.ToString();
             translateLabel(button, string_title);
         }
+
         private static void translateLabel(RibbonMenuButton button, string name, params string[] variables) {
             StringCollection str = Strings.getInterfaceString(name);
             if (str[StringType.Label].HasHotKey) {
@@ -161,7 +168,6 @@ namespace Translator.WPF {
             if (str.ContainsKey(StringType.ToolTip)) {
                 button.ToolTip = str[StringType.ToolTip].interpret(variables);
             }
-
         }
 
         private static void translateLabel(RibbonCheckBox button) {
@@ -203,21 +209,50 @@ namespace Translator.WPF {
         private static void translateMenuItem(MenuItem item) {
             string string_title = item.Header.ToString();
             if (string_title != "") {
-                item.Header = Strings.getInterfaceString(string_title);
+                StringCollection str = Strings.getInterfaceString(string_title);
+
+                item.Header = str[StringType.Label].interpret();
+
+                if (str.ContainsKey(StringType.ToolTip)) {
+                    item.ToolTip = str[StringType.ToolTip].interpret();
+                }
             }
+
         }
 
-        private static void translateContent(ContentControl control) {
-            if (control.Content == null)
-                return;
-            if (control.Content is TextBlock) {
-                translateText(control.Content as TextBlock);
-                return;
+        private static void translateButton(Button control) {
+            if (control.Content is string) {
+                translateButton(control, control.Content as string);
+            } else {
+                translateContent(control);
+            }
+        }
+        private static void translateButton(Button button, string name, params string[] variables) {
+            StringCollection str = Strings.getInterfaceString(name);
+            //if (str[StringType.Label].HasHotKey) {
+            //    button.key = str[StringType.Label].hotkey;
+            //}
+
+            if (str.ContainsKey(StringType.ToolTip)) {
+                button.ToolTip = str[StringType.ToolTip].interpret(variables);
             }
 
-                string string_title = control.Content.ToString();
+            translateContent(button, name);
+        }
+        private static string translateContent(ContentControl control) {
+            if (control.Content == null)
+                return null;
+
+            if (control.Content is UIElement) {
+                translateRecursively(control.Content as UIElement);
+                return null;
+            }
+
+            string string_title = control.Content.ToString();
 
             translateContent(control,string_title);
+
+            return string_title;
         }
         private static void translateContent(ContentControl control, string name, params string[] variables) {
             TranslateableString str = Strings.getInterfaceString(name)[StringType.Label];

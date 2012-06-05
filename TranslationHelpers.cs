@@ -135,6 +135,8 @@ namespace Translator.WPF {
                   obj is Image ||
                   obj is TreeView ||
                 obj is PasswordBox) {
+            } else if (obj is TextBlock) {
+                translateText(obj as TextBlock, name, variables);
             } else if (obj is ContentControl) {
                 if (obj is HeaderedContentControl) {
                     translateHeader(obj as HeaderedContentControl,name,variables);
@@ -202,7 +204,10 @@ namespace Translator.WPF {
 
         private static TranslateableString translateText(TextBlock text) {
             string string_title = text.Text.ToString();
-            TranslateableString str = Strings.getInterfaceString(string_title)[StringType.Label];
+            return translateText(text, string_title);
+        }
+        private static TranslateableString translateText(TextBlock text, string name, params string[] variables) {
+            TranslateableString str = Strings.getInterfaceString(name)[StringType.Label];
             text.Text = str.interpret();
             return str;
         }

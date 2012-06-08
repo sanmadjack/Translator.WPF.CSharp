@@ -128,6 +128,7 @@ namespace Translator.WPF {
         }
 
         public static void translate(UIElement obj, string name, params string[] variables) {
+            name = "$" + name;
             if (obj == null ||
                 obj is TextBox ||
                   obj is ProgressBar ||
@@ -138,7 +139,9 @@ namespace Translator.WPF {
             } else if (obj is TextBlock) {
                 translateText(obj as TextBlock, name, variables);
             } else if (obj is ContentControl) {
-                if (obj is HeaderedContentControl) {
+                if (obj is Window) {
+                    translateTitle(obj as Window, name, variables);
+                } else if (obj is HeaderedContentControl) {
                     translateHeader(obj as HeaderedContentControl,name,variables);
                 } else if (obj is RibbonButton) {
                     translateLabel(obj as RibbonButton,name,variables);
@@ -177,9 +180,14 @@ namespace Translator.WPF {
             button.Label = Strings.getInterfaceString(string_title)[StringType.Label].interpret();
 
         }
+        private static void translateTitle(Window window, string name, params string[] variables) {
+            window.Title = Strings.getInterfaceString(name)[StringType.Label].interpret(variables);
+        }
+
+
         private static void translateTitle(Window window) {
             string string_title = window.Title.ToString();
-            window.Title = Strings.getInterfaceString(string_title)[StringType.Label].interpret();
+            translateTitle(window, string_title);
         }
 
         private static void translateLabel(RibbonButton button) {

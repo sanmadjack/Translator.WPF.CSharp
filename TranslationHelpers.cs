@@ -216,7 +216,7 @@ namespace Translator.WPF {
         }
         private static TranslateableString translateText(TextBlock text, string name, params string[] variables) {
             TranslateableString str = Strings.getInterfaceString(name)[StringType.Label];
-            text.Text = str.interpret();
+            text.Text = str.interpret(variables);
             return str;
         }
         private static void translateMenuItem(MenuItem item) {

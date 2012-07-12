@@ -57,7 +57,7 @@
     <Compile Include="TranslationHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Translator\Translator.csproj">
+    <ProjectReference Include="..\Translator\Translator.csproj">
       <Project>{1B233D4E-7DF0-4608-A0D5-94D416B5B359}</Project>
       <Name>Translator</Name>
     </ProjectReference>

@@ -59,8 +59,9 @@ namespace Translator.WPF {
                 obj is PasswordBox) {
             } else if (obj is ItemsControl) {
                 ItemsControl items = obj as ItemsControl;
-                foreach (UIElement item in items.Items) {
-                    translateRecursively(item);
+                foreach (object item in items.Items) {
+                    if(item.GetType().IsSubclassOf(typeof(UIElement)))
+                        translateRecursively(item as UIElement);
                 }
                 if (obj is HeaderedItemsControl) {
                     if (obj is MenuItem) {

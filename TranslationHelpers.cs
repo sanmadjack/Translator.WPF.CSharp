@@ -164,9 +164,19 @@ namespace Translator.WPF {
         }
 
         private static void translateLabel(RibbonCheckBox button) {
-            string string_title = button.Label.ToString();
-            button.Label = Strings.getInterfaceString(string_title)[StringType.Label].interpret();
+            string name = button.Label.ToString();
 
+
+            StringCollection str = Strings.getInterfaceString(name);
+            if (str[StringType.Label].HasHotKey) {
+                button.KeyTip = str[StringType.Label].hotkey;
+            }
+
+            button.Label = str[StringType.Label].interpret();
+
+            if (str.ContainsKey(StringType.ToolTip)) {
+                button.ToolTip = str[StringType.ToolTip].interpret();
+            }
         }
         private static void translateTitle(Window window, string name, params string[] variables) {
             window.Title = Strings.getInterfaceString(name)[StringType.Label].interpret(variables);

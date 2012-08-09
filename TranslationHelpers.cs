@@ -246,6 +246,8 @@ namespace Translator.WPF {
 
         private static TranslateableString translateText(TextBlock text) {
             string string_title = text.Text.ToString();
+            if (!string_title.StartsWith("$"))
+                return null;
             return translateText(text, string_title);
         }
         private static TranslateableString translateText(TextBlock text, string name, params string[] variables) {

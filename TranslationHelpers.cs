@@ -35,7 +35,8 @@ namespace Translator.WPF {
                   obj is Image ||
                   obj is TreeView ||
                   obj is System.Windows.Shapes.Shape ||
-                obj is PasswordBox) {
+                obj is PasswordBox ||
+                obj is ResizeGrip) {
             } else if (objectIsOfType(obj, typeof(TextBox))) {
                 if (objectIsOfType(obj,typeof(RibbonTextBox))) {
                     translateLabel(obj as RibbonTextBox);
@@ -104,6 +105,8 @@ namespace Translator.WPF {
 
             } else if (objectIsOfType(obj,typeof(TextBlock))) {
                 translateText(obj as TextBlock);
+            } else if (objectIsOfType(obj, typeof(Decorator))) {
+                translateRecursively((obj as Decorator).Child);
             } else if (objectIsOfType(obj, typeof(UserControl))) {
                 translateControl(obj as UserControl);
             } else {

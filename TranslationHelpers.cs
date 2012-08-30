@@ -36,6 +36,7 @@ namespace Translator.WPF {
                   obj is TreeView ||
                   obj is System.Windows.Shapes.Shape ||
                 obj is PasswordBox ||
+                obj is GridSplitter ||
                 obj is ResizeGrip) {
             } else if (objectIsOfType(obj, typeof(TextBox))) {
                 if (objectIsOfType(obj,typeof(RibbonTextBox))) {

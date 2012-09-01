@@ -22,6 +22,12 @@ namespace Translator.WPF {
         private static void translateRecursively(UIElement obj) {
             if (obj is FrameworkElement) {
                 FrameworkElement fe = obj as FrameworkElement;
+
+                if (fe.ToolTip!=null&&fe.ToolTip.ToString().StartsWith("$")) {
+                    string tipname = fe.ToolTip.ToString().Substring(1);
+                    fe.ToolTip = Strings.GetToolTipString(tipname);
+                }
+
                 if (fe.ContextMenu != null) {
                     foreach (MenuItem item in fe.ContextMenu.Items) {
                         translateMenuItem(item);
@@ -48,6 +54,13 @@ namespace Translator.WPF {
                     if(item.GetType().IsSubclassOf(typeof(UIElement)))
                         translateRecursively(item as UIElement);
                 }
+                if (obj is Ribbon) {
+                    Ribbon rib = obj as Ribbon;
+                    if(rib.HelpPaneContent!=null&&rib.HelpPaneContent is UIElement) {
+                        translateRecursively(rib.HelpPaneContent as UIElement);
+                    }
+                }
+
                 if (obj is HeaderedItemsControl) {
                     if (obj is MenuItem) {
                         translateMenuItem(obj as MenuItem);

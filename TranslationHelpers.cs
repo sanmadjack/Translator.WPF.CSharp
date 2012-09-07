@@ -9,7 +9,7 @@ namespace Translator.WPF {
 
         private static bool objectIsOfType(object obj, Type type) {
             Type check = obj.GetType();
-            return check.Equals(type)||check.IsSubclassOf(type);
+            return check.Equals(type) || check.IsSubclassOf(type);
         }
 
         #region Translating methods
@@ -23,7 +23,7 @@ namespace Translator.WPF {
             if (obj is FrameworkElement) {
                 FrameworkElement fe = obj as FrameworkElement;
 
-                if (fe.ToolTip!=null&&fe.ToolTip.ToString().StartsWith("$")) {
+                if (fe.ToolTip != null && fe.ToolTip.ToString().StartsWith("$")) {
                     string tipname = fe.ToolTip.ToString().Substring(1);
                     fe.ToolTip = Strings.GetToolTipString(tipname);
                 }
@@ -45,18 +45,18 @@ namespace Translator.WPF {
                 obj is GridSplitter ||
                 obj is ResizeGrip) {
             } else if (objectIsOfType(obj, typeof(TextBox))) {
-                if (objectIsOfType(obj,typeof(RibbonTextBox))) {
+                if (objectIsOfType(obj, typeof(RibbonTextBox))) {
                     translateLabel(obj as RibbonTextBox);
                 }
             } else if (obj is ItemsControl) {
                 ItemsControl items = obj as ItemsControl;
                 foreach (object item in items.Items) {
-                    if(item.GetType().IsSubclassOf(typeof(UIElement)))
+                    if (item.GetType().IsSubclassOf(typeof(UIElement)))
                         translateRecursively(item as UIElement);
                 }
                 if (obj is Ribbon) {
                     Ribbon rib = obj as Ribbon;
-                    if(rib.HelpPaneContent!=null&&rib.HelpPaneContent is UIElement) {
+                    if (rib.HelpPaneContent != null && rib.HelpPaneContent is UIElement) {
                         translateRecursively(rib.HelpPaneContent as UIElement);
                     }
                 }
@@ -117,7 +117,7 @@ namespace Translator.WPF {
                     translateContent(obj as ContentControl);
                 }
 
-            } else if (objectIsOfType(obj,typeof(TextBlock))) {
+            } else if (objectIsOfType(obj, typeof(TextBlock))) {
                 translateText(obj as TextBlock);
             } else if (objectIsOfType(obj, typeof(Decorator))) {
                 translateRecursively((obj as Decorator).Child);
@@ -136,7 +136,7 @@ namespace Translator.WPF {
                   obj is Image ||
                   obj is TreeView ||
                 obj is PasswordBox) {
-            } else if(obj is TextBox) {
+            } else if (obj is TextBox) {
                 if (obj is RibbonTextBox || obj.GetType().IsSubclassOf(typeof(RibbonTextBox))) {
                     translateLabel(obj as RibbonTextBox, name, variables);
                 }
@@ -146,11 +146,11 @@ namespace Translator.WPF {
                 if (obj is Window) {
                     translateTitle(obj as Window, name, variables);
                 } else if (obj is HeaderedContentControl) {
-                    translateHeader(obj as HeaderedContentControl,name,variables);
+                    translateHeader(obj as HeaderedContentControl, name, variables);
                 } else if (obj is RibbonButton) {
-                    translateLabel(obj as RibbonButton,name,variables);
+                    translateLabel(obj as RibbonButton, name, variables);
                 } else {
-                    translateContent(obj as ContentControl,name,variables);
+                    translateContent(obj as ContentControl, name, variables);
                 }
 
             } else {
@@ -159,7 +159,7 @@ namespace Translator.WPF {
         }
 
         #region translate Ribbon Labels
-        
+
         private static void translateLabel(RibbonMenuButton button) {
             if (button.Label == null)
                 return;
@@ -317,14 +317,14 @@ namespace Translator.WPF {
 
             string string_title = control.Content.ToString();
 
-            translateContent(control,string_title);
+            translateContent(control, string_title);
 
             return string_title;
         }
 
         private static void translateContent(ContentControl control, string name, params string[] variables) {
             TranslateableString str = Strings.getInterfaceString(name)[StringType.Label];
-                control.Content = str.interpret(variables);
+            control.Content = str.interpret(variables);
         }
 
         #region Header translators

@@ -170,7 +170,7 @@ namespace Translator.WPF {
         private static void translateLabel(RibbonMenuButton button, string name, params string[] variables) {
             StringCollection str = Strings.getInterfaceString(name);
             if (str[StringType.Label].HasHotKey) {
-                button.KeyTip = str[StringType.Label].hotkey;
+                button.KeyTip = str[StringType.Label].HotKey;
             }
 
             button.Label = str[StringType.Label].interpret(variables);
@@ -186,7 +186,7 @@ namespace Translator.WPF {
 
             StringCollection str = Strings.getInterfaceString(name);
             if (str[StringType.Label].HasHotKey) {
-                button.KeyTip = str[StringType.Label].hotkey;
+                button.KeyTip = str[StringType.Label].HotKey;
             }
 
             button.Label = str[StringType.Label].interpret();
@@ -213,7 +213,7 @@ namespace Translator.WPF {
         private static void translateLabel(RibbonTextBox button, string name, params string[] variables) {
             StringCollection str = Strings.getInterfaceString(name);
             if (str[StringType.Label].HasHotKey) {
-                button.KeyTip = str[StringType.Label].hotkey;
+                button.KeyTip = str[StringType.Label].HotKey;
             }
 
             button.Label = str[StringType.Label].interpret(variables);
@@ -232,7 +232,7 @@ namespace Translator.WPF {
         private static void translateLabel(RibbonButton button, string name, params string[] variables) {
             StringCollection str = Strings.getInterfaceString(name);
             if (str[StringType.Label].HasHotKey) {
-                button.KeyTip = str[StringType.Label].hotkey;
+                button.KeyTip = str[StringType.Label].HotKey;
             }
 
             button.Label = str[StringType.Label].interpret(variables);
@@ -250,7 +250,7 @@ namespace Translator.WPF {
         private static void translateLabel(RibbonToggleButton button, string name, params string[] variables) {
             StringCollection str = Strings.getInterfaceString(name);
             if (str[StringType.Label].HasHotKey) {
-                button.KeyTip = str[StringType.Label].hotkey;
+                button.KeyTip = str[StringType.Label].HotKey;
             }
 
             button.Label = str[StringType.Label].interpret(variables);
@@ -350,7 +350,7 @@ namespace Translator.WPF {
             if (control is RibbonTab) {
                 RibbonTab tab = control as RibbonTab;
                 if (str.HasHotKey) {
-                    tab.KeyTip = str.hotkey;
+                    tab.KeyTip = str.HotKey;
                 }
             }
             control.Header = str.interpret();

@@ -274,7 +274,7 @@ namespace Translator.WPF {
         }
         private static void translateMenuItem(MenuItem item) {
             string string_title = item.Header.ToString();
-            if (string_title != "") {
+            if (!String.IsNullOrEmpty(string_title)) {
                 StringCollection str = Strings.getInterfaceString(string_title);
 
                 item.Header = str[StringType.Label].interpret();
